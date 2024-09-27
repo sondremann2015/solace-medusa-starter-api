@@ -33,6 +33,7 @@
     "@medusajs/event-bus-local": "preview",
     "@medusajs/file": "preview",
     "@medusajs/file-local-next": "preview",
+    "@medusajs/file-s3": "^0.0.3-preview-20240925143312",
     "@medusajs/fulfillment": "preview",
     "@medusajs/fulfillment-manual": "preview",
     "@medusajs/inventory-next": "preview",
