@@ -90,10 +90,11 @@ class SearchEngine {
     }
 
     if (category_id) {
-      this.#qb.whereIn(
-        "product_category_product.product_category_id",
-        category_id
-      );
+      this.#qb.whereIn("id", function () {
+        this.select("product_category_product.product_id")
+          .from("product_category_product")
+          .whereIn("product_category_id", category_id);
+      });
     }
   }
 
@@ -133,7 +134,6 @@ class SearchEngine {
           .whereNull("price.deleted_at")
           .groupBy("product_variant.product_id");
       })
-      .distinct(this.#connection.raw("product.id"))
       .select(
         ...select.map((sel) => `product.${sel}`),
         "price_data.regular_price",
@@ -145,11 +145,6 @@ class SearchEngine {
       )
       .from("product")
       .leftJoin("price_data", "price_data.product_id", "product.id")
-      .leftJoin(
-        "product_category_product",
-        "product_category_product.product_id",
-        "product.id"
-      )
       .where("product.status", "=", "published");
   }
 }
