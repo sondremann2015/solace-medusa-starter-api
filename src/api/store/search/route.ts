@@ -133,6 +133,7 @@ class SearchEngine {
           .whereNull("price.deleted_at")
           .groupBy("product_variant.product_id");
       })
+      .distinct(this.#connection.raw("product.id"))
       .select(
         ...select.map((sel) => `product.${sel}`),
         "price_data.regular_price",
