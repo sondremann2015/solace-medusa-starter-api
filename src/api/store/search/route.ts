@@ -86,7 +86,7 @@ class SearchEngine {
     }
 
     if (materials) {
-      this.#qb.whereIn("product.materials", materials);
+      this.#qb.whereIn("product.material", materials);
     }
 
     if (category_id) {
