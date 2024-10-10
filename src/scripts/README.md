@@ -54,3 +54,7 @@ Then, pass the arguments in the `exec` command after the file path:
 ```bash
 npx medusa exec ./src/scripts/my-script.ts arg1 arg2
 ```
+
+```
+
+```
