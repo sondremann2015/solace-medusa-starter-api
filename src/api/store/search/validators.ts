@@ -21,6 +21,8 @@ export const StoreSearchProductsParams = createFindParams({
         "-created_at",
       ])
       .default("relevance"),
+    price_from: z.coerce.number().optional(),
+    price_to: z.coerce.number().optional(),
   })
 );
 

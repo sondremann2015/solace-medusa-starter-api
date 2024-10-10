@@ -72,6 +72,8 @@ class SearchEngine {
     type_id,
     materials,
     category_id,
+    price_from,
+    price_to,
   }: StoreSearchProductsParamsType) {
     if (q) {
       this.#qb.whereRaw("searchable_content @@ plainto_tsquery(?)", [q]);
@@ -96,6 +98,20 @@ class SearchEngine {
           .whereIn("product_category_id", category_id);
       });
     }
+
+    if (price_from) {
+      this.#qb.where(
+        this.#connection.raw(
+          "COALESCE(price_data.sale_price, price_data.regular_price)"
+        ),
+        ">=",
+        price_from
+      );
+    }
+
+    if (price_to) {
+      this.#qb.andWhere("price_data.max_price", "<=", price_to);
+    }
   }
 
   private buildBaseQuery(currencyCode: string, select: string[]) {
@@ -108,7 +124,8 @@ class SearchEngine {
           ),
           this.#connection.raw(
             "MIN(CASE WHEN price.price_list_id IS NULL THEN price.amount END) AS regular_price"
-          )
+          ),
+          this.#connection.raw("MAX(price.amount) AS max_price")
         )
           .from("product_variant")
           .innerJoin(
@@ -145,6 +162,7 @@ class SearchEngine {
       )
       .from("product")
       .leftJoin("price_data", "price_data.product_id", "product.id")
-      .where("product.status", "=", "published");
+      .where("product.status", "=", "published")
+      .whereNull("product.deleted_at");
   }
 }
