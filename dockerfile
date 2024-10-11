@@ -10,4 +10,4 @@ RUN yarn
 
 RUN yarn build
 
-CMD yarn migrate && yarn start
+CMD yarn db:migrate && yarn start
