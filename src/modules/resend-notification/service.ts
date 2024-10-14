@@ -15,7 +15,8 @@ type ModuleOptions = {
 };
 
 export enum ResendNotificationTemplates {
-  ORDER_PLACED = 'order-placed'
+  ORDER_PLACED = 'order-placed',
+  RESET_PASSWORD = 'reset-password'
 }
 
 class ResendNotificationProviderService extends AbstractNotificationProviderService {
