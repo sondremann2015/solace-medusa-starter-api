@@ -19,7 +19,7 @@ export default async function resetPasswordTokenHandler({
 
   const urlPrefix = actor_type === "customer" ? 
     "http://localhost:8000" : 
-    "http://localhost:8000"
+    "http://localhost:7000"
 
   await notificationModuleService.createNotifications({
     to: email,
