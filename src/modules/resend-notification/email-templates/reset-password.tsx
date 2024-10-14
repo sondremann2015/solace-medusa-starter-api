@@ -1,8 +1,8 @@
 interface EmailTemplateProps {
-  data: any;
+  url: string;
 }
 
-export const ResetPasswordEmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({ data }) => {
+export const ResetPasswordEmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({ url }) => {
   return (
         <div
       style={{
@@ -39,7 +39,7 @@ export const ResetPasswordEmailTemplate: React.FC<Readonly<EmailTemplateProps>> 
         only active for one hour.
       </p>
       <a
-        href={data.url}
+        href={url}
         style={{
           color: '#F9F9F9',
           textDecoration: 'none',

@@ -5,6 +5,7 @@ import { Resend } from 'resend';
 
 import { validateModuleOptions } from '../../utils/validate-module-options';
 import { OrderPlacedEmailTemplate } from './email-templates/order-placed';
+import { ResetPasswordEmailTemplate } from './email-templates/reset-password';
 
 type ModuleOptions = {
   apiKey: string;
@@ -64,14 +65,30 @@ class ResendNotificationProviderService extends AbstractNotificationProviderServ
     );
   }
 
+    // Send reset password mail
+  private async sendResetPasswordMail(notification: ProviderSendNotificationDTO) {
+    const url = notification?.data?.url as string;
+    const dynamicSubject = notification?.data?.subject as string;
+
+    return await this.sendMail(
+      dynamicSubject,
+      ResetPasswordEmailTemplate({url}),
+      notification.to
+    );
+  }
+
   async send(notification: ProviderSendNotificationDTO) {
     switch (notification.template) {
       case ResendNotificationTemplates.ORDER_PLACED.toString():
         return await this.sendOrderPlacedMail(notification);
+
+       case ResendNotificationTemplates.RESET_PASSWORD.toString():
+        return await this.sendResetPasswordMail(notification);
     }
 
     return {};
   }
+
 }
 
 export default ResendNotificationProviderService;

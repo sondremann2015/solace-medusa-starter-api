@@ -27,6 +27,7 @@ export default async function resetPasswordTokenHandler({
     template: ResendNotificationTemplates.RESET_PASSWORD,
     data: {
       // a URL to a frontend application
+      subject: 'Forgot your password?',
       url: `${urlPrefix}/reset-password?token=${token}&email=${email}`,
     },
   })
