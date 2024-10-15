@@ -17,7 +17,7 @@ export default async function resetPasswordTokenHandler({
     Modules.NOTIFICATION
   )
 
-  const urlPrefix = 'https://solace-medusa-starter.vercel.app/'
+  const urlPrefix = 'https://solace-medusa-starter.vercel.app'
 
   await notificationModuleService.createNotifications({
     to: email,
