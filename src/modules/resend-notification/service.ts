@@ -1,5 +1,5 @@
 import { ProviderSendNotificationDTO } from '@medusajs/types';
-import { AbstractNotificationProviderService, MedusaError } from '@medusajs/utils';
+import { AbstractNotificationProviderService, MedusaError } from '@medusajs/framework/utils';
 
 import { Resend } from 'resend';
 
@@ -21,6 +21,7 @@ export enum ResendNotificationTemplates {
 }
 
 class ResendNotificationProviderService extends AbstractNotificationProviderService {
+  static identifier = 'resend-notification';
   private resend: Resend;
   private options: ModuleOptions;
 
@@ -65,14 +66,14 @@ class ResendNotificationProviderService extends AbstractNotificationProviderServ
     );
   }
 
-    // Send reset password mail
+  // Send reset password mail
   private async sendResetPasswordMail(notification: ProviderSendNotificationDTO) {
     const url = notification?.data?.url as string;
     const dynamicSubject = notification?.data?.subject as string;
 
     return await this.sendMail(
       dynamicSubject,
-      ResetPasswordEmailTemplate({url}),
+      ResetPasswordEmailTemplate({ url }),
       notification.to
     );
   }
@@ -82,13 +83,12 @@ class ResendNotificationProviderService extends AbstractNotificationProviderServ
       case ResendNotificationTemplates.ORDER_PLACED.toString():
         return await this.sendOrderPlacedMail(notification);
 
-       case ResendNotificationTemplates.RESET_PASSWORD.toString():
+      case ResendNotificationTemplates.RESET_PASSWORD.toString():
         return await this.sendResetPasswordMail(notification);
     }
 
     return {};
   }
-
 }
 
 export default ResendNotificationProviderService;

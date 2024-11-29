@@ -1,6 +1,6 @@
-const { loadEnv, defineConfig, Modules } = require('@medusajs/framework/utils');
+import { loadEnv, defineConfig, Modules } from '@medusajs/framework/utils';
 
-loadEnv(process.env.NODE_ENV, process.cwd());
+loadEnv(process.env.NODE_ENV || 'development', process.cwd());
 
 const dynamicModules = {};
 
@@ -53,7 +53,7 @@ const modules = {
     options: {
       providers: [
         {
-          resolve: './modules/resend-notification',
+          resolve: './src/modules/resend-notification',
           id: 'resend-notification',
           options: {
             channels: ['email'],
@@ -70,23 +70,19 @@ const modules = {
 };
 
 module.exports = defineConfig({
+  admin: {
+    backendUrl: process.env.MEDUSA_BACKEND_URL || 'https://shattering-silly-scam.medusajs.app',
+    disable: process.env.DISABLE_MEDUSA_ADMIN === 'true'
+  },
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
-    database_extra: { ssl: { rejectUnauthorized: false } },
-    database_driver_options: {
-      connection: { ssl: { rejectUnauthorized: false } },
-    },
     http: {
       storeCors: process.env.STORE_CORS,
       adminCors: process.env.ADMIN_CORS,
       authCors: process.env.AUTH_CORS,
       jwtSecret: process.env.JWT_SECRET || 'supersecret',
       cookieSecret: process.env.COOKIE_SECRET || 'supersecret'
-    },
-    admin: {
-      backendUrl: process.env.BACKEND_URL || "http://localhost:9000",
-      disable: process.env.DISABLE_MEDUSA_ADMIN === "true",
-    },
+    }
   },
   modules: {
     ...dynamicModules,
