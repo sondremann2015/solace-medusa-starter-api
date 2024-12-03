@@ -10,6 +10,4 @@ RUN yarn
 
 RUN yarn build
 
-RUN yarn medusa user -e admin@test.com -p supersecret -i admin
-
-CMD yarn db:migrate && yarn start
+CMD yarn db:migrate && yarn medusa user -e admin@test.com -p supersecret -i admin && yarn start
